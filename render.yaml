@@ -1,0 +1,7 @@
+version: 1
+type: java
+name: jewelry-ecommerce-backend
+env: java
+buildCommand: mvn clean package -DskipTests
+startCommand: java -jar target/jewelry-ecommerce-1.0.0.jar
+healthCheckPath: /api/health
