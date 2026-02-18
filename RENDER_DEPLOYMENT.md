@@ -24,7 +24,7 @@ This file contains setup instructions for deploying the backend to Render.
 3. Select free tier or paid
 4. Copy the Internal Database URL
 
-### Step 2: Deploy Backend on Render
+### Step 2: Deploy Backend on Render (Docker - Free Tier)
 
 1. **Create New Web Service**
    - Go to Render Dashboard
@@ -37,9 +37,10 @@ This file contains setup instructions for deploying the backend to Render.
    - **Region**: Choose closest to your users
    - **Branch**: `main` (or your deployment branch)
    - **Root Directory**: `backend`
-   - **Runtime**: `Java`
-   - **Build Command**: `mvn clean package -DskipTests`
-   - **Start Command**: `java -Dspring.profiles.active=prod -jar target/jewelry-ecommerce-1.0.0.jar`
+   - **Environment**: `Docker`
+   - **Dockerfile Path**: `Dockerfile` (auto-detected)
+   - ⚠️ **Build Command**: Leave empty (Docker handles build)
+   - ⚠️ **Start Command**: Leave empty (Docker ENTRYPOINT handles start)
 
 3. **Configure Environment Variables**
    
@@ -61,17 +62,25 @@ This file contains setup instructions for deploying the backend to Render.
    RAZORPAY_KEY_ID=your_razorpay_key_id
    RAZORPAY_KEY_SECRET=your_razorpay_key_secret
    
-   # CORS - Update after deploying frontend
-   CORS_ALLOWED_ORIGINS=https://your-app.vercel.app,http://localhost:5173
+   # CORS - IMPORTANT: Use your actual Vercel URL (no trailing slash)
+   # Example: https://jewelryeshop.vercel.app
+   CORS_ALLOWED_ORIGINS=https://your-app.vercel.app
    
    # Server
    SERVER_PORT=8080
    ```
 
 4. **Set Instance Type**
-   - Free tier or Starter ($7/month recommended)
+   - **Free tier** (Docker required for free tier)
+   - Or Starter ($7/month) for better performance
 
 5. **Click "Create Web Service"**
+
+   Render will:
+   - Pull your code from GitHub
+   - Build Docker image using your Dockerfile
+   - Deploy container
+   - Takes ~10-15 minutes for first deploy
 
 ### Step 3: Database Setup
 
